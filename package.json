@@ -1,0 +1,10 @@
+{
+  "name": "mergeit",
+  "version": "0.1.0",
+  "dependencies": {
+    "express": "~4.11.0",
+    "twig": "~0.8.2"
+  },
+  "author": "thibaut",
+  "description": "un outil de merge dans git en node.js"
+}
