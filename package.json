@@ -3,8 +3,15 @@
   "version": "0.1.0",
   "dependencies": {
     "express": "~4.11.0",
-    "twig": "~0.8.2"
+    "twig": "~0.8.2",
+    "body-parser": "~1.10.1",
+    "shelljs": "~0.5.1"
   },
-  "author": "thibaut",
-  "description": "un outil de merge dans git en node.js"
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Thibaut-gauvin/cherryGit.git"
+  },
+  "author": "thibaut gauvin",
+  "description": "A Git merge tool in Node.js",
+  "license": "Copyright 2015 - All rights protected"
 }
