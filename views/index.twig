@@ -1,18 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>CherryGit</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-    <body>
-        <div class="container">
+{% extends 'template.html.twig' %}
+
+{% block title %}Overview{% endblock%}
+
+{% block body %}
+
+    <div id="page-wrapper">
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
             <div class="row">
-                <div class="col-md-offset-3 col-md-6 todolist">
-                    <h1>Home</h1>
-                    <p>Bonjour bienvenue</p>
-                    <button class="btn btn-infos"><a href="/postApi">Form</a></button>
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        bonjour bienvenue
+                    </h1>
                 </div>
             </div>
+            <!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <p></p>
+                </div>
+            </div>
+            <!-- /.row -->
+
         </div>
-    </body>
-</html>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+
+{% endblock %}

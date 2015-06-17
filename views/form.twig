@@ -1,15 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>CherryGit</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-    <body>
-        <h1></h1>
-        <div class="container">
+{% extends 'template.html.twig' %}
+
+{% block title %}Overview{% endblock%}
+
+{% block body %}
+
+    <div id="page-wrapper">
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
             <div class="row">
-                <h2>Veuillez remplir les infos suivantes: </h2>
-                <div class="col-md-12 todolist">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        Form
+                    </h1>
+                </div>
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
                     <form action="/postApi" method="post">
                         <div class="form-group">
                             <label for="repository">Email address</label>
@@ -28,6 +37,11 @@
                     </form>
                 </div>
             </div>
+            <!-- /.row -->
+
         </div>
-    </body>
-</html>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+
+{% endblock %}
