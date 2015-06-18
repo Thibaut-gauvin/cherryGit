@@ -1,14 +1,18 @@
 require('shelljs/global');
 var express = require('express');
-var bodyParser = require('body-parser');
 var app = express();
 var Twig = require('twig');
-app.use(bodyParser.urlencoded({ extended: false }));
+var bodyParser = require('body-parser');
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
 app.use('/static', express.static('public'));
 
 /* application variable */
 var git_project_path = '/var/www';
 var listenPort = '8080';
+var mergeStatus = 'available';
 
 if (!which('git')) {
     var response = {'status' : 'ko', 'message' : 'Sorry, this script requires git'};
@@ -21,12 +25,40 @@ app.post('/repo/:repository/branch/:branch/commit', function (req, res) {
     var pathRepository =  git_project_path + '/' + req.params.repository;
     var branchName = req.params.branch;
     var commitHAsh = req.body.commit;
-
-    console.log('commitHAsh: ' + commitHAsh);
-
     var params = [pathRepository, branchName, commitHAsh];
 
-    goToRepository(params, res);
+    // console.log(params);
+
+    if(checkStatus()) {
+        goToRepository(params, res);
+    } else {
+        renderJson(res, '/!\\ You cannot merge now, because somebody is currently using CherryGit to merge in the same file than you.');
+    }
+});
+
+app.get('/postApi', function (req, res) {
+    renderView(res, 'form');
+});
+
+app.post('/postApi', function (req, res) {
+    var pathRepository =  git_project_path + '/' + req.body.repository;
+    var branchName = req.body.branch;
+    var commitHAsh = req.body.commit;
+    var params = [pathRepository, branchName, commitHAsh];
+
+    if(checkStatus()) {
+        goToRepository(params, res);
+    } else {
+        renderJson(res, '/!\\ You cannot merge now, because somebody is currently using CherryGit to merge in the same file than you.');
+    }
+
+});
+
+app.get('/status/:status', function (req, res) {
+    if (req.params.status == 1) {
+        mergeStatus = 'available';
+        renderJson(res, 'ok, mergeStatus is now: available');
+    }
 });
 
 // bad url
@@ -37,7 +69,16 @@ app.use(function(req, res) {
 
 /* Function */
 
+function checkStatus() {
+    if (mergeStatus == 'available') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function goToRepository(params, res) {
+
     console.log('cd to ' + params[0]);
     if (exec('cd ' + params[0]).code !== 0) {
         var response = {'status' : 'ko', 'message' : 'cd to directory ' + params[0] + ' failed'};
@@ -63,7 +104,8 @@ function gitCherryPick(params, res) {
         var response = {'status' : 'ko', 'message' : 'git cherry-pick \'' + params[2] + '\' failed'};
         renderJson(res, response);
     } else {
-        renderJson(res, 'tous va bien mec');
+        mergeStatus = 'mergeInProgress';
+        renderJson(res, 'It works, Merge in progress');
     }
 }
 
@@ -75,9 +117,9 @@ function renderView(res, view, message) {
 
 function renderJson(res, data) {
     var apiResponse = {'data' : data};
-
+    console.log(mergeStatus);
     res.writeHead(200, {"Content-Type": "application/json"});
-    res.write(JSON.stringify(apiResponse));
+    res.write(JSON.stringify(apiResponse) + '\n');
     res.end();
 }
 
