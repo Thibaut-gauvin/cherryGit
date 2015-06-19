@@ -19,18 +19,18 @@
 
             <div class="row">
                 <div class="col-lg-12 col-md-12">
-                    <form action="/postApi" method="post">
+                    <form action="/post" method="post">
                         <div class="form-group">
-                            <label for="repository">Email address</label>
-                            <input type="text" name="repository" class="form-control" id="repository" placeholder="Enter repository name">
+                            <label for="repository">Repository</label>
+                            <input type="text" name="repository" class="form-control" id="repository" placeholder="my_repository">
                         </div>
                         <div class="form-group">
-                            <label for="branch">Password</label>
-                            <input type="text" name="branch" class="form-control" id="branch" placeholder="Enter branch name">
+                            <label for="branch">Branch</label>
+                            <input type="text" name="branch" class="form-control" id="branch" placeholder="master">
                         </div>
                         <div class="form-group">
-                            <label for="commit">Password</label>
-                            <input type="text" name="commit" class="form-control" id="commit" placeholder="Enter commit hash">
+                            <label for="commit">Commit Hash</label>
+                            <input type="text" name="commit" class="form-control" id="commit" placeholder="ea72eaa1a6a9208ba8d3a1cfbed4f2dc5b9bda94">
                         </div>
                         <button type="reset" class="btn btn-danger">Reset</button>
                         <button type="submit" class="btn btn-success">Submit</button>

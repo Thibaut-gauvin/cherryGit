@@ -29,29 +29,20 @@ app.post('/repo/:repository/branch/:branch/commit', function (req, res) {
 
     // console.log(params);
 
-    if(checkStatus()) {
-        goToRepository(params, res);
-    } else {
-        renderJson(res, '/!\\ You cannot merge now, because somebody is currently using CherryGit to merge in the same file than you.');
-    }
+    checkStatus(params, res);
 });
 
-app.get('/postApi', function (req, res) {
+app.get('/post', function (req, res) {
     renderView(res, 'form');
 });
 
-app.post('/postApi', function (req, res) {
+app.post('/post', function (req, res) {
     var pathRepository =  git_project_path + '/' + req.body.repository;
     var branchName = req.body.branch;
     var commitHAsh = req.body.commit;
     var params = [pathRepository, branchName, commitHAsh];
 
-    if(checkStatus()) {
-        goToRepository(params, res);
-    } else {
-        renderJson(res, '/!\\ You cannot merge now, because somebody is currently using CherryGit to merge in the same file than you.');
-    }
-
+    checkStatus(params, res);
 });
 
 app.get('/status/:status', function (req, res) {
@@ -61,16 +52,26 @@ app.get('/status/:status', function (req, res) {
     }
 });
 
+
+app.get('/home', function (req, res) {
+    renderView(res, 'index');
+});
+
 // bad url
 app.use(function(req, res) {
     renderJson(res, 'Bad Request');
 });
 
 
+
 /* Function */
 
-function checkStatus() {
-    return (mergeStatus == 'available') ? true : false;
+function checkStatus(params, res) {
+    if(mergeStatus === 'available') {
+        goToRepository(params, res);
+    } else {
+        renderJson(res, '|!| You cannot merge now, because somebody is currently using CherryGit to merge in the same repository than you. |!|');
+    }
 }
 
 function goToRepository(params, res) {
