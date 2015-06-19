@@ -70,11 +70,7 @@ app.use(function(req, res) {
 /* Function */
 
 function checkStatus() {
-    if (mergeStatus == 'available') {
-        return true;
-    } else {
-        return false;
-    }
+    return (mergeStatus == 'available') ? true : false;
 }
 
 function goToRepository(params, res) {
@@ -116,8 +112,8 @@ function renderView(res, view, message) {
 }
 
 function renderJson(res, data) {
+    console.log('merge status: '+ mergeStatus);
     var apiResponse = {'data' : data};
-    console.log(mergeStatus);
     res.writeHead(200, {"Content-Type": "application/json"});
     res.write(JSON.stringify(apiResponse) + '\n');
     res.end();
